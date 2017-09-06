@@ -1,0 +1,14 @@
+node_modules/
+run/
+logs/
+*.log
+*.log.*
+coverage/
+
+.DS_Store
+.idea/
+
+.Trashes
+*.swp
+
+config/config.local.js
