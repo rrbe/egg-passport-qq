@@ -45,6 +45,8 @@ exports.passportQQ = {
 ```js
 // {app_root}/config/config.default.js
 exports.passportQQ = {
+  clientID: CLIENT_ID,
+  secret: CLIENT_SECRET,
 };
 ```
 
