@@ -2,16 +2,12 @@
 const qqStrategy = require('passport-qq').Strategy;
 
 module.exports = app => {
-    
     const config = app.config.passportQQ;
     config.passReqToCallback = true;
     config.clientID = config.key;
     config.clientSecret = config.secret;
     const client = 'loginByQQ';
-    
     app.passport.use(client, new qqStrategy(config, (req, accessToken, refreshToken, profile, done) => {
-        
-        console.log(profile);
         const user = {
             provider: 'qq',
             id: profile.id,
