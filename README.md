@@ -45,8 +45,8 @@ exports.passportQQ = {
 ```js
 // {app_root}/config/config.default.js
 exports.passportQQ = {
-    key: 'your oauth key',
-    secret: 'your oauth secret',
+    key: '',
+    secret: '',
 };
 ```
 
