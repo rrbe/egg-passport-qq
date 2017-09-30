@@ -45,6 +45,8 @@ exports.passportQQ = {
 ```js
 // {app_root}/config/config.default.js
 exports.passportQQ = {
+    key: 'your oauth key',
+    secret: 'your oauth secret',
 };
 ```
 
@@ -52,7 +54,34 @@ see [config/config.default.js](config/config.default.js) for more detail.
 
 ## Example
 
-<!-- example here -->
+- Why and What: 
+    该插件主要用于使用了 `egg-passport` 插件的情况下，第三方 qq oauth 协议登录，获取用户信息
+- How: 
+    首先客户端 / web 端需要唤起 qq 应用（web 端是访问 https://graph.qq.com/oauth2.0/authorize ）获取登录的 authorize_code
+    之后在服务端示例代码如下：
+    
+    ```javascript
+        // app/controller/oauth.js
+        // 客户端拿到 code 之后，向服务端发起一个请求，服务端收到请求后，根据 code，构造 url，redirect 到那个url
+        const url = `/path/you/set/for/qq/oauth?client_id=${QQClientID}&client_secret=${QQClientSecret}&grant_type=authorization_code&code=${yourCode}&redirect_uri=${参考qq开放平台文档注册url}`;
+  
+        // router.js
+        app.get('/path/you/set/for/qq/oauth', app.passport.authenticate('loginByQQ', {
+            successRedirect: '/path/for/qq/oauth/callback',
+            failureRedirect: '/login',
+        }));
+        app.get('/path/for/qq/oauth/callback', app.controller.oauth.getDemoInformation);
+      
+        // app.js
+        app.passport.verify(function* (ctx, user) {
+            // 在这里可以拿到 user，user 构成看 egg-passport 文档或源码
+            // 然后可以对 user 做一些持久化操作
+            // 同时这个函数执行完以后，egg-passport 会自动帮我们设置 user 信息到 redis session（如果有）
+        })
+      
+        // app/controller/oauth/getDemoInformation.js
+        // 在这里可以获取 session 里面的信息
+    ```
 
 ## Questions & Suggestions
 
